@@ -1,10 +1,11 @@
 ﻿# 🌾 KrishiLink: Multilingual AI Voice Navigation & Agri-Commerce Platform
 
 > **🏆 Built for Major League Hacking (MLH) — Best Open-Source AI Project Challenge**  
-> *An accessibility-first, voice-controlled agritech ecosystem powered by open-weight LLMs (`Qwen` & `Llama-3`) and open-source speech processing.*
+> *An accessibility-first, voice-controlled agritech ecosystem powered by open-weight models: **OpenAI Whisper Large v3** (Speech-to-Text) and **Qwen 2.5 / 3.8** (Multilingual LLM Reasoning).*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
-[![Open-Weight AI](https://img.shields.io/badge/AI-Open--Weight%20LLMs-blue.svg)](https://github.com/QwenLM/Qwen2.5)
+[![Whisper STT](https://img.shields.io/badge/STT-Whisper%20Large%20v3-orange.svg)](https://github.com/openai/whisper)
+[![Qwen LLM](https://img.shields.io/badge/LLM-Qwen%202.5%20%2F%203.8--27B-blue.svg)](https://github.com/QwenLM/Qwen2.5)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16.3-black.svg)](https://nextjs.org/)
 [![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL%20%2F%20Neon-336791.svg)](https://neon.tech/)
 [![Prisma ORM](https://img.shields.io/badge/ORM-Prisma-2D3748.svg)](https://www.prisma.io/)
@@ -15,6 +16,8 @@
 ## 📌 Table of Contents
 - [💡 Problem & Mission](#-problem--mission)
 - [🤖 Open-Source / Open-Weight AI Architecture](#-open-source--open-weight-ai-architecture)
+  - [1. Speech Recognition (STT): OpenAI Whisper Large v3](#1-speech-recognition-stt-openai-whisper-large-v3)
+  - [2. Conversational Reasoning & Parsing: Qwen 2.5 / 3.8](#2-conversational-reasoning--parsing-qwen-25--38)
 - [🎙️ Voice Assistant Capabilities](#️-voice-assistant-capabilities)
 - [🌐 Multi-Dialect Spoken Cheat Sheet](#-multi-dialect-spoken-cheat-sheet)
 - [🚜 Platform Modules & User Roles](#-platform-modules--user-roles)
@@ -38,25 +41,27 @@ India is home to over **140 million agricultural producers**, yet a vast majorit
 
 ## 🤖 Open-Source / Open-Weight AI Architecture
 
-KrishiLink is built from the ground up around **open-weight foundation models**:
+KrishiLink combines **OpenAI Whisper Large v3** for speech recognition with **Qwen 2.5 / 3.8** for multi-dialect reasoning and slot-filling:
 
 ```
- ┌─────────────────────────┐
- │   Spoken Voice Audio    │
- │ (English, বাংলা, मराठी)  │
- └────────────┬────────────┘
-              │
-              ▼
  ┌──────────────────────────────────────────────────────────┐
- │  Continuous Speech Streamer (1200ms Adaptive Debounce)   │
+ │                   Spoken Voice Audio                     │
+ │          (English, বাংলা / Bengali, मराठी / Marathi)       │
  └────────────────────────────┬─────────────────────────────┘
                               │
                               ▼
  ┌──────────────────────────────────────────────────────────┐
- │    Open-Weight LLM Inference Engine (Qwen / Llama-3)     │
- │    • Real-time Multilingual Intent Classification        │
- │    • Dialect & Phoneme Normalization (বাংলা/मराठी)       │
- │    • Context-Aware Dynamic Slot Filling                  │
+ │  Speech-to-Text Engine: OpenAI Whisper Large v3 (Groq)   │
+ │  • Multilingual Indic phoneme & dialect transcription    │
+ │  • Continuous audio streaming with 1200ms debounce       │
+ └────────────────────────────┬─────────────────────────────┘
+                              │
+                              ▼
+ ┌──────────────────────────────────────────────────────────┐
+ │  Open-Weight Reasoning LLM: Qwen 2.5 / Qwen 3.8-27B      │
+ │  • Zero-shot Multilingual Intent Classification          │
+ │  • Dialect Script Normalization (বাংলা / मराठी)          │
+ │  • Context-Aware Dynamic Slot Filling                    │
  └────────────────────────────┬─────────────────────────────┘
                               │
               ┌───────────────┴───────────────┐
@@ -67,18 +72,19 @@ KrishiLink is built from the ground up around **open-weight foundation models**:
  └─────────────────────────┘     └─────────────────────────┘
 ```
 
-1. **Open-Weight Reasoning (`Qwen` & `Llama-3.3`)**:
-   - Ultra-fast inference (<800ms) for multi-dialect intent classification, query correction, and slot extraction.
-   - Robust normalization of vernacular phonemes and regional number representations (e.g., converting `৫ ৮ ২ ৯` or `५ ८ २ ९` into validated OTP tokens).
+### 1. Speech Recognition (STT): OpenAI Whisper Large v3
+- **Model**: `openai/whisper-large-v3` / `whisper-large-v3-turbo` via Groq LPU.
+- **Where it is used**: [`Voice_Nav/backend/app/services/speech_service.py`](./Voice_Nav/backend/app/services/speech_service.py) and audio ingestion pipeline.
+- **Role**: High-precision multilingual audio transcription across noisy rural environments and low-resource Indic speech (Bengali, Marathi, and Hinglish/Banglish).
+- **Latency**: Sub-300ms ultra-fast transcription speed.
 
-2. **Adaptive Conversational Window**:
-   - Continuous audio streaming with an adaptive **1200ms silence debounce timer** to prevent mid-sentence speech cutoff and microphone echo loops.
-
-3. **Context-Aware Safety & Cache Flushing**:
-   - Automatic purging of stale form context and conversation history on route transitions or manual button clicks, preventing ghost inputs.
-
-4. **Agent Skill Open Standard Compliance**:
-   - Structured according to the **Agent Skill Open Standard** ([`SKILL.md`](./SKILL.md)), allowing external autonomous agents to invoke KrishiLink's navigation and logistics tools.
+### 2. Conversational Reasoning & Parsing: Qwen 2.5 / 3.8
+- **Model**: `qwen/qwen3.8-27b` / `Qwen2.5`.
+- **Where it is used**: [`SIH/src/app/api/assistant/command/route.ts`](./SIH/src/app/api/assistant/command/route.ts) and [`Voice_Nav/backend/app/services/intent_engine.py`](./Voice_Nav/backend/app/services/intent_engine.py).
+- **Role**:
+  - High-accuracy native script tokenization for Bengali (`বাংলা`) and Devanagari (`मराठी`).
+  - Translates regional numeric expressions and glyphs (e.g. `৫ ৮ ২ ৯` or `५ ८ २ ९` -> `5829`) into verified OTP tokens.
+  - Contextual intent classification (`NAVIGATE`, `FILL_FORM`, `SEND_OTP`, `CHANGE_LANGUAGE`, `LOGOUT`).
 
 ---
 
@@ -128,7 +134,8 @@ KrishiLink is built from the ground up around **open-weight foundation models**:
 ## 🏗️ Technical Architecture
 
 - **Frontend**: Next.js 16 (App Router), React 19, Tailwind CSS, Lucide Icons, Recharts.
-- **AI & NLP**: Open-Weight LLMs (`Qwen-2.5-27B` / `Llama-3.3-70B`) via Groq LPU, Web Speech API with continuous streaming.
+- **Speech-to-Text (STT)**: **OpenAI Whisper Large v3** (`whisper-large-v3` / `whisper-large-v3-turbo`) via Groq LPU + Web Speech continuous streaming.
+- **LLM Reasoning**: **Qwen 2.5 / 3.8-27B** (`qwen/qwen3.8-27b`) for multilingual intent & slot extraction.
 - **Database**: PostgreSQL (Serverless via Neon DB) managed with Prisma ORM.
 - **Authentication**: Zero-password Phone + On-Screen Dynamic OTP verification.
 - **Translation**: Google Translate API + Multilingual React Context (`LanguageContext`).
@@ -159,6 +166,7 @@ Create a `.env` file in the `SIH/` directory:
 DATABASE_URL="postgresql://username:password@host/neondb?sslmode=require"
 GROQ_API_KEY="your-groq-api-key"
 GROQ_LLM_MODEL="qwen/qwen3.8-27b"
+GROQ_WHISPER_MODEL="whisper-large-v3"
 DATA_GOV_IN_API_KEY="your-optional-data-gov-in-api-key"
 ```
 
@@ -175,7 +183,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 1. Import the repository `https://github.com/Aryan-Samadder-07/SIH_voice_Nav` on [Vercel](https://vercel.com/).
 2. Select **`SIH`** as the project root directory.
-3. Add the 4 environment variables (`DATABASE_URL`, `GROQ_API_KEY`, `GROQ_LLM_MODEL`, `DATA_GOV_IN_API_KEY`).
+3. Add the environment variables (`DATABASE_URL`, `GROQ_API_KEY`, `GROQ_LLM_MODEL`, `DATA_GOV_IN_API_KEY`).
 4. Click **Deploy**. Vercel will build and deploy the application with zero additional configuration needed.
 
 ---
