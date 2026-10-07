@@ -1,7 +1,7 @@
 ﻿# 🌾 KrishiLink: Multilingual AI Voice Navigation & Agri-Commerce Platform
 
 > **🏆 Built for Major League Hacking (MLH) — Best Open-Source AI Project Challenge**  
-> *An accessibility-first, voice-controlled agritech ecosystem powered by open-weight models: **OpenAI Whisper Large v3** (Speech-to-Text) and **Qwen 2.5 / 3.8** (Multilingual LLM Reasoning).*
+> _An accessibility-first, voice-controlled agritech ecosystem powered by open-weight models: **OpenAI Whisper Large v3** (Speech-to-Text) and **Qwen 2.5/3.8** (Multilingual LLM Reasoning)._
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](https://opensource.org/licenses/MIT)
 [![Whisper STT](https://img.shields.io/badge/STT-Whisper%20Large%20v3-orange.svg)](https://github.com/openai/whisper)
@@ -14,6 +14,7 @@
 ---
 
 ## 📌 Table of Contents
+
 - [💡 Problem & Mission](#-problem--mission)
 - [🤖 Open-Source / Open-Weight AI Architecture](#-open-source--open-weight-ai-architecture)
   - [1. Speech Recognition (STT): OpenAI Whisper Large v3](#1-speech-recognition-stt-openai-whisper-large-v3)
@@ -31,6 +32,7 @@
 ## 💡 Problem & Mission
 
 India is home to over **140 million agricultural producers**, yet a vast majority face steep digital exclusion due to:
+
 - **Complex UI Forms**: Text-heavy dropdowns, filters, and tables that are challenging for semi-literate rural users.
 - **Password Barriers**: Cumbersome password recovery, special character rules, and authentication friction.
 - **Language Barriers**: Most platforms prioritize English, neglecting regional dialects like **Bengali** and **Marathi**.
@@ -73,12 +75,14 @@ KrishiLink combines **OpenAI Whisper Large v3** for speech recognition with **Qw
 ```
 
 ### 1. Speech Recognition (STT): OpenAI Whisper Large v3
+
 - **Model**: `openai/whisper-large-v3` / `whisper-large-v3-turbo` via Groq LPU.
 - **Where it is used**: [`Voice_Nav/backend/app/services/speech_service.py`](./Voice_Nav/backend/app/services/speech_service.py) and audio ingestion pipeline.
 - **Role**: High-precision multilingual audio transcription across noisy rural environments and low-resource Indic speech (Bengali, Marathi, and Hinglish/Banglish).
 - **Latency**: Sub-300ms ultra-fast transcription speed.
 
 ### 2. Conversational Reasoning & Parsing: Qwen 2.5 / 3.8
+
 - **Model**: `qwen/qwen3.8-27b` / `Qwen2.5`.
 - **Where it is used**: [`SIH/src/app/api/assistant/command/route.ts`](./SIH/src/app/api/assistant/command/route.ts) and [`Voice_Nav/backend/app/services/intent_engine.py`](./Voice_Nav/backend/app/services/intent_engine.py).
 - **Role**:
@@ -90,43 +94,47 @@ KrishiLink combines **OpenAI Whisper Large v3** for speech recognition with **Qw
 
 ## 🎙️ Voice Assistant Capabilities
 
-- **Passwordless Voice Onboarding**: Enter phone number -> say *"Send OTP"* -> visual on-screen OTP code appears -> say *"My OTP is [code]"* -> instantly authenticate.
-- **Deep Subpage Tab Switching**: Directly jump to internal sub-tabs like *"My Active Bids"*, *"Secured Contracts"*, *"Produce Listings"*, *"Available Cargo Jobs"*, or *"Escrow Ledger"*.
+- **Passwordless Voice Onboarding**: Enter phone number -> say _"Send OTP"_ -> visual on-screen OTP code appears -> say _"My OTP is [code]"_ -> instantly authenticate.
+- **Deep Subpage Tab Switching**: Directly jump to internal sub-tabs like _"My Active Bids"_, _"Secured Contracts"_, _"Produce Listings"_, _"Available Cargo Jobs"_, or _"Escrow Ledger"_.
 - **Live Multilingual Translation**: Instant UI dialect switching (`EN | मराठी | বাংলা`) via conversational voice trigger or top-bar control.
-- **Voice-Driven Logout**: Say *"Log out"*, *"লগআউট করো"*, or *"लॉग आउट करा"* to cleanly terminate sessions and reset state.
+- **Voice-Driven Logout**: Say _"Log out"_, _"লগআউট করো"_, or _"लॉग आउट करा"_ to cleanly terminate sessions and reset state.
 
 ---
 
 ## 🌐 Multi-Dialect Spoken Cheat Sheet
 
-| Action | English Voice Command | বাংলা (Bengali) | मराठी (Marathi) |
-| :--- | :--- | :--- | :--- |
-| **Send OTP** | *"Send OTP"* | *"ওটিপি পাঠাও"* | *"ओटीपी पाठवा"* |
-| **Confirm OTP** | *"OTP is 5829"* | *"ওটিপি কোড হলো ৫ ৮ ২ ৯"* | *"माझा ओटीपी ५ ८ २ ९ आहे"* |
-| **Farmer Portal** | *"Open Farmer View"* | *"কৃষক পেজে যাও"* | *"शेतकरी पृष्ठावर जा"* |
-| **Cargo Jobs** | *"Available cargo jobs"* | *"পরিবহন কাজ দেখাও"* | *"उपलब्ध वाहतूक कामे"* |
-| **Active Bids** | *"My active bids"* | *"আমার সক্রিয় দরপত্র"* | *"माझ्या सक्रिय बोली"* |
-| **Language Switch**| *"Switch page to Marathi"*| *"পেজের ভাষা বাংলায় পরিবর্তন করো"* | *"पृष्ठ भाषा इंग्रजीत करा"* |
-| **Logout** | *"Log me out"* | *"লগআউট করুন"* | *"बाहेर पडा"* |
+| Action              | English Voice Command      | বাংলা (Bengali)                     | मराठी (Marathi)             |
+| :------------------ | :------------------------- | :---------------------------------- | :-------------------------- |
+| **Send OTP**        | _"Send OTP"_               | _"ওটিপি পাঠাও"_                     | _"ओटीपी पाठवा"_             |
+| **Confirm OTP**     | _"OTP is 5829"_            | _"ওটিপি কোড হলো ৫ ৮ ২ ৯"_           | _"माझा ओटीपी ५ ८ २ ९ आहे"_  |
+| **Farmer Portal**   | _"Open Farmer View"_       | _"কৃষক পেজে যাও"_                   | _"शेतकरी पृष्ठावर जा"_      |
+| **Cargo Jobs**      | _"Available cargo jobs"_   | _"পরিবহন কাজ দেখাও"_                | _"उपलब्ध वाहतूक कामे"_      |
+| **Active Bids**     | _"My active bids"_         | _"আমার সক্রিয় দরপত্র"_             | _"माझ्या सक्रिय बोली"_      |
+| **Language Switch** | _"Switch page to Marathi"_ | _"পেজের ভাষা বাংলায় পরিবর্তন করো"_ | _"पृष्ठ भाषा इंग्रजीत करा"_ |
+| **Logout**          | _"Log me out"_             | _"লগআউট করুন"_                      | _"बाहेर पडा"_               |
 
 ---
 
 ## 🚜 Platform Modules & User Roles
 
 ### 🌾 1. Farmer Portal (`/farmer`)
+
 - **Produce Listing Engine**: List crop commodity, variety, weight (quintals), quality grade, and minimum reserve price.
 - **Live Mandi Price Integration**: Real-time mandi benchmark rates fetched dynamically via `api.data.gov.in`.
 - **Bid Negotiation**: Accept, reject, or counter buyer offers in real time.
 
 ### 🛒 2. Buyer Portal (`/buyer`)
+
 - **Produce Discovery**: Search and filter lots by commodity, distance, price range, and seller rating.
 - **Escrow-Backed Bids**: Place competitive bids on active lots with transparent platform fee breakdowns.
 
 ### 🚛 3. Transporter Portal (`/transporter`)
+
 - **Logistics Matching**: Real-time load matching with support for **Shared (Consolidated)** and **Dedicated** freight modes.
 - **Dynamic Freight Bidding**: Submit freight quotes based on per-km rates, vehicle capacity, and estimated ETA.
 
 ### 🛠️ 4. Admin Console (`/admin`)
+
 - Platform-wide transaction ledger, user verification, dispute resolution matrix, and reliability scoring.
 
 ---
@@ -145,23 +153,28 @@ KrishiLink combines **OpenAI Whisper Large v3** for speech recognition with **Qw
 ## 🚀 Getting Started & Local Development
 
 ### Prerequisites
+
 - Node.js 18+ and npm
 - PostgreSQL database instance (or a free [Neon DB](https://neon.tech/) connection)
 - Groq API Key ([Get a free key here](https://console.groq.com/))
 
 ### 1. Clone Repository
+
 ```bash
 git clone https://github.com/Aryan-Samadder-07/SIH_voice_Nav.git
 cd SIH_voice_Nav/SIH
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Configure Environment Variables
+
 Create a `.env` file in the `SIH/` directory:
+
 ```env
 DATABASE_URL="postgresql://username:password@host/neondb?sslmode=require"
 GROQ_API_KEY="your-groq-api-key"
@@ -171,10 +184,12 @@ DATA_GOV_IN_API_KEY="your-optional-data-gov-in-api-key"
 ```
 
 ### 4. Push Database Schema & Run
+
 ```bash
 npx prisma db push
 npm run dev
 ```
+
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
